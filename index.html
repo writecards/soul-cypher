@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-
+    <title>Soul Dance Cypher Practice</title>
     <style>
       * {
         box-sizing: border-box;
@@ -101,14 +101,12 @@
   </head>
   <body>
     <div class="container">
-      <h1>Soul Dance Cypher Let's Go</h1>
-
       <div class="words" id="words"></div>
       <div class="timer" id="timer"></div>
       <div class="warning" id="warning">45 seconds left — 换人</div>
 
-      <button id="promptBtn">获取 2 个元素</button>
-      <button id="startBtn">开始 90 秒</button>
+      <button id="promptBtn">获取元素</button>
+      <button id="startBtn">开始 45 秒</button>
       <button id="restartBtn">重启</button>
     </div>
 
@@ -160,7 +158,8 @@
       function getPrompt() {
         clearInterval(countdown);
         const [w1, w2] = getTwoRandomWords();
-        wordsEl.textContent = `${w1} + ${w2}`;
+        // wordsEl.textContent = `${w1} or ${w2}`;
+        wordsEl.textContent = `${w1}`;
         timerEl.textContent = "";
         warningEl.style.display = "none";
 
@@ -169,7 +168,7 @@
       }
 
       function startTimer() {
-        timeLeft = 90;
+        timeLeft = 45;
         timerEl.textContent = `Time: ${timeLeft}s`;
         startBtn.style.display = "none";
         restartBtn.style.display = "none";
@@ -179,9 +178,9 @@
           timeLeft--;
           timerEl.textContent = `Time: ${timeLeft}s`;
 
-          if (timeLeft === 45) {
-            warningEl.style.display = "block";
-          }
+          //   if (timeLeft === 45) {
+          //     warningEl.style.display = "block";
+          //   }
 
           if (timeLeft <= 0) {
             clearInterval(countdown);
