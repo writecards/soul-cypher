@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Soul Dance Cypher Practice</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: #b34d00;
+        background: radial-gradient(
+          circle,
+          rgba(179, 77, 0, 1) 0%,
+          rgba(46, 0, 115, 1) 100%
+        );
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 420px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      h1 {
+        font-size: 24px;
+        letter-spacing: 0.05em;
+      }
+
+      .words {
+        font-size: clamp(28px, 8vw, 40px);
+        font-weight: 600;
+        min-height: 2.5em;
+      }
+
+      .timer {
+        font-size: clamp(24px, 6vw, 32px);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .warning {
+        color: #ffcc00;
+        font-size: 16px;
+        display: none;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      button {
+        width: 100%;
+        padding: 16px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      #promptBtn {
+        background: #ffffff;
+        color: #000;
+      }
+      #startBtn {
+        background: #00ffcc;
+        color: #000;
+        display: none;
+      }
+      #restartBtn {
+        background: #ff4d4d;
+        color: #000;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Soul Dance Cypher Let's Go</h1>
+
+      <div class="words" id="words"></div>
+      <div class="timer" id="timer"></div>
+      <div class="warning" id="warning">45 seconds left — 换人</div>
+
+      <button id="promptBtn">获取 2 个元素</button>
+      <button id="startBtn">开始 90 秒</button>
+      <button id="restartBtn">重启</button>
+    </div>
+
+    <script>
+      const wordBank = [
+        "four corner",
+        "watergate",
+        "side walk",
+        "breakdown",
+        "spank",
+        "worm",
+        "tilt",
+        "freak",
+        "gigolo",
+        "nasty",
+        "guess",
+        "rock",
+        "drop",
+        "old man",
+        "trucking",
+        "stamp",
+        "funky rhythm",
+        "funky guitar",
+        "funky broadway",
+        "babysitter",
+        "popcorn",
+        "boogie walk",
+        "smurf",
+        "she got soul",
+        "hama chacha",
+        "soul chacha",
+      ];
+
+      const promptBtn = document.getElementById("promptBtn");
+      const startBtn = document.getElementById("startBtn");
+      const restartBtn = document.getElementById("restartBtn");
+      const wordsEl = document.getElementById("words");
+      const timerEl = document.getElementById("timer");
+      const warningEl = document.getElementById("warning");
+
+      let countdown = null;
+      let timeLeft = 45;
+
+      function getTwoRandomWords() {
+        const shuffled = [...wordBank].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 2);
+      }
+
+      function getPrompt() {
+        clearInterval(countdown);
+        const [w1, w2] = getTwoRandomWords();
+        wordsEl.textContent = `${w1} + ${w2}`;
+        timerEl.textContent = "";
+        warningEl.style.display = "none";
+
+        startBtn.style.display = "block";
+        restartBtn.style.display = "none";
+      }
+
+      function startTimer() {
+        timeLeft = 90;
+        timerEl.textContent = `Time: ${timeLeft}s`;
+        startBtn.style.display = "none";
+        restartBtn.style.display = "none";
+        warningEl.style.display = "none";
+
+        countdown = setInterval(() => {
+          timeLeft--;
+          timerEl.textContent = `Time: ${timeLeft}s`;
+
+          if (timeLeft === 45) {
+            warningEl.style.display = "block";
+          }
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerEl.textContent = "时间到！";
+            restartBtn.style.display = "block";
+          }
+        }, 1000);
+      }
+
+      promptBtn.addEventListener("click", getPrompt);
+      startBtn.addEventListener("click", startTimer);
+      restartBtn.addEventListener("click", getPrompt);
+    </script>
+  </body>
+</html>
